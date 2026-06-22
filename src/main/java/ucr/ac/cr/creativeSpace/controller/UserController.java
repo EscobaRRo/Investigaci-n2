@@ -41,7 +41,7 @@ public class UserController {
         UserDTO dto=this.userService.getById(id);
         if (dto==null)
         {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Persona no encontrada");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Persona no encontrada");
         }
         return ResponseEntity.ok(dto);
     }
@@ -63,7 +63,7 @@ public class UserController {
     }
 
     //actualiza espacio
-
+    @PutMapping("/edit/{id}")
     public ResponseEntity<?> editUser (@Validated @PathVariable Integer id, @RequestBody User user, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -81,13 +81,13 @@ public class UserController {
     }
 
     //elimina espacio
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser (@PathVariable Integer id)
     {
         UserDTO dto= this.userService.getById(id);
-        if (dto!=null)
+        if (dto==null)
         {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario con el ID: " + id + " no existe!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El usuario con el ID: " + id + " no existe!");
         }
         this.userService.deleteUser(id);
         return ResponseEntity.noContent().build();

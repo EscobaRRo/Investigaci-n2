@@ -52,7 +52,7 @@ public class CreativeSpaceController {
         CreativeSpaceDTO cp = this.service.findById(id);
         if (cp==null)
         {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario no existe");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El usuario no existe");
         }
         return ResponseEntity.ok(cp);
     }
@@ -73,7 +73,7 @@ public class CreativeSpaceController {
         {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El usuario no existe");
         }
-        return ResponseEntity.ok(this.service.updateCreativeSpace(cp));
+        return ResponseEntity.ok(dto);
     }
     //elimina espacio
     @DeleteMapping("/delete/{id}")
@@ -81,7 +81,7 @@ public class CreativeSpaceController {
         CreativeSpaceDTO dto=this.service.findById(id);
         if (dto==null)
         {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario no existe");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El usuario no existe");
         }
         this.service.deleteCreativeSpace(id);
         return ResponseEntity.noContent().build();
